@@ -9,7 +9,7 @@ import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Heart, Camera } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 export const EditProfile: React.FC = () => {
   const navigate = useNavigate();
@@ -118,7 +118,7 @@ export const EditProfile: React.FC = () => {
 
             <div>
               <Label htmlFor="gender">Gender</Label>
-              <Select value={formData.gender} onValueChange={(v) => handleChange('gender', v)}>
+              <Select value={formData.gender} onValueChange={(v: string) => handleChange('gender', v)}>
                 <SelectTrigger className="mt-2">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>

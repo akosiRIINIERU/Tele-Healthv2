@@ -8,7 +8,7 @@ import { Textarea } from '../ui/textarea';
 import { Calendar } from '../ui/calendar';
 import { Heart, Check } from 'lucide-react';
 import { mockDoctors } from '../../lib/mockData';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 export const BookAppointment: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -72,7 +72,7 @@ export const BookAppointment: React.FC = () => {
               mode="single"
               selected={date}
               onSelect={setDate}
-              disabled={(date) => date < new Date()}
+              disabled={(date: Date) => date < new Date()}
               className="rounded-md border-0"
             />
           </Card>

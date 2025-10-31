@@ -7,7 +7,7 @@ import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { Clock, Share2, Bookmark } from 'lucide-react';
 import { mockArticles } from '../../lib/mockData';
 import { Button } from '../ui/button';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 export const ArticleDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
