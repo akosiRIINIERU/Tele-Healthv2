@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { mockAppointments } from '../../lib/mockData';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 export const DoctorDashboard: React.FC = () => {
   const navigate = useNavigate();

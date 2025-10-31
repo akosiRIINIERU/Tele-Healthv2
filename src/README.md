@@ -38,30 +38,32 @@ A comprehensive healthcare application built with React, TypeScript, and Tailwin
 ### Prerequisites
 - Node.js 18+ and npm/yarn/pnpm
 - VS Code (recommended)
+- Supabase account (already connected!)
 
 ### Installation
 
-1. **Clone or create the project**
-   ```bash
-   # If starting fresh
-   npm create vite@latest doctor-booking-app -- --template react-ts
-   cd doctor-booking-app
-   ```
-
-2. **Install dependencies**
+1. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. **Start development server**
+2. **Start development server**
    ```bash
    npm run dev
    ```
 
-4. **Open in browser**
-   ```
-   http://localhost:5173
-   ```
+3. **Initialize Database** (First time only)
+   - Open the app in browser: http://localhost:5173
+   - Open browser console (F12)
+   - Run: `initDatabase()`
+   - This creates test accounts and seed data
+
+4. **Login with Test Accounts**
+   - **Patient**: `patient@test.com` / `password123`
+   - **Doctors**: 
+     - `dr.smith@healthcare.com` / `doctor123`
+     - `dr.johnson@healthcare.com` / `doctor123`
+     - And 3 more doctors...
 
 ### Build for Production
 
@@ -69,6 +71,24 @@ A comprehensive healthcare application built with React, TypeScript, and Tailwin
 npm run build
 npm run preview
 ```
+
+### Supabase Backend
+
+✅ **Already Connected!** Your app uses Supabase for:
+- 🔐 **Authentication** - Real user login/signup with Supabase Auth
+- 💾 **Database** - Persistent storage using Supabase KV Store
+- ⚡ **Edge Functions** - Serverless API with Hono framework
+- 🔒 **Secure** - Row-level security and protected routes
+
+**API Endpoints Available:**
+- `/auth/*` - Authentication (signup, signin, logout)
+- `/doctors/*` - Doctor profiles and management
+- `/appointments/*` - Appointment CRUD operations
+- `/messages/*` - Chat messaging
+- `/articles/*` - Health articles
+- `/health-tips/*` - Daily tips
+- `/payments/*` - Payment processing
+- `/withdrawals/*` - Doctor withdrawals
 
 ## 📁 Project Structure
 
@@ -81,7 +101,15 @@ doctor-booking-app/
 │   ├── shared/            # Shared components
 │   └── ui/                # ShadCN UI components
 ├── contexts/              # React contexts (Auth, Theme)
-├── lib/                   # Utilities and mock data
+├── lib/                   # Utilities, API client, mock data
+│   ├── supabaseClient.ts  # API wrapper for backend
+│   ├── mockData.ts        # Fallback data
+│   └── utils.ts           # Helper functions
+├── supabase/              # Backend server
+│   └── functions/server/
+│       ├── index.tsx      # Main API server (Hono)
+│       ├── seed.ts        # Database seed script
+│       └── kv_store.tsx   # Database utilities
 ├── styles/                # Global styles
 ├── App.tsx                # Main app with routing
 ├── main.tsx              # Entry point
@@ -143,15 +171,24 @@ doctor-booking-app/
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 18 + TypeScript
+### Frontend
+- **Framework**: React 18 + TypeScript
 - **Routing**: React Router v6
 - **Styling**: Tailwind CSS v4
 - **UI Components**: ShadCN UI + Radix UI
 - **Icons**: Lucide React
-- **Notifications**: Sonner
+- **Notifications**: Sonner (Toast)
 - **Build Tool**: Vite
 - **Date Handling**: date-fns
 - **State Management**: React Context API
+
+### Backend (Supabase)
+- **Platform**: Supabase Cloud
+- **Runtime**: Deno (Edge Functions)
+- **Framework**: Hono (Web Framework)
+- **Database**: KV Store (Key-Value)
+- **Authentication**: Supabase Auth (JWT)
+- **API**: RESTful (22 endpoints)
 
 ## 🎨 Design System
 
@@ -186,15 +223,15 @@ The app is optimized for:
 - Persistent sessions
 - Secure logout
 
-## 💾 Mock Data
+## 💾 Database & Storage
 
-The app uses mock data for demonstration:
-- 5 sample doctors with different specializations
-- 2 sample appointments
-- 4 health articles
-- 4 daily health tips
+The app uses Supabase for persistent data storage:
+- **Real Authentication**: Supabase Auth with JWT tokens
+- **Database**: KV Store for all application data
+- **Seed Data**: 5 doctors, 4 articles, 6 health tips
+- **API**: 22 RESTful endpoints for all operations
 
-Replace with real API calls in production.
+All data persists across sessions and page refreshes!
 
 ## 🚧 Future Enhancements
 
@@ -208,6 +245,23 @@ Replace with real API calls in production.
 - [ ] Telemedicine features
 - [ ] Analytics dashboard
 - [ ] Reviews and ratings system
+
+## 📚 Documentation
+
+Complete documentation for your reference:
+
+| Document | Description |
+|----------|-------------|
+| **[README.md](./README.md)** | This file - Overview and quick start |
+| **[SUPABASE_SETUP.md](./SUPABASE_SETUP.md)** | Detailed Supabase backend guide |
+| **[SUPABASE_INTEGRATION.md](./SUPABASE_INTEGRATION.md)** | Integration overview & testing |
+| **[ARCHITECTURE.md](./ARCHITECTURE.md)** | System architecture diagrams |
+| **[QUICKSTART.md](./QUICKSTART.md)** | 3-minute setup for beginners |
+| **[SETUP.md](./SETUP.md)** | Detailed installation guide |
+| **[FEATURES.md](./FEATURES.md)** | Complete feature list (150+) |
+| **[COMPONENT_TREE.md](./COMPONENT_TREE.md)** | Component structure |
+| **[GET_STARTED.md](./GET_STARTED.md)** | Getting started guide |
+| **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** | Project overview |
 
 ## 📄 License
 

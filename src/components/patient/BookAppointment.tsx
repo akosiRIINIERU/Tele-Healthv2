@@ -8,7 +8,7 @@ import { Textarea } from '../ui/textarea';
 import { Calendar } from '../ui/calendar';
 import { Heart, Check } from 'lucide-react';
 import { mockDoctors } from '../../lib/mockData';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 export const BookAppointment: React.FC = () => {
   const { id } = useParams<{ id: string }>();

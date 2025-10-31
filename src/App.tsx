@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { Toaster } from './components/ui/sonner';
+import { initDatabase } from './lib/initDatabase';
 
 // Auth Components
 import { Login } from './components/auth/Login';
@@ -98,6 +99,12 @@ const AppRoutes: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  useEffect(() => {
+    // Make initDatabase available globally for easy access
+    (window as any).initDatabase = initDatabase;
+    console.log('💡 Tip: Run initDatabase() in console to seed the database');
+  }, []);
+
   return (
     <ThemeProvider>
       <AuthProvider>

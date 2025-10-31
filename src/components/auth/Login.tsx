@@ -40,7 +40,7 @@ export const Login: React.FC = () => {
                 <Heart className="w-12 h-12 text-pink-500" />
               </div>
             </div>
-            <h2 className="text-gray-900 dark:text-white">TELEHEALTH</h2>
+            <h2 className="text-gray-900 dark:text-white">Welcome Back</h2>
             <p className="text-gray-500 dark:text-gray-400">
               Sign in to continue
             </p>
