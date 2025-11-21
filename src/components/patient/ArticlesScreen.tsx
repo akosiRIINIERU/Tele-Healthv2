@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MobileLayout } from '../MobileLayout';
-import { BottomNav } from '../BottomNav';
+import { ResponsiveLayout } from '../ResponsiveLayout';
 import { Card } from '../ui/card';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
@@ -34,11 +33,11 @@ export const ArticlesScreen: React.FC = () => {
   ];
 
   return (
-    <MobileLayout title="Health Articles">
-      <div className="pb-20">
+    <ResponsiveLayout title="Health Articles">
+      <div>
         {/* Search and Filter */}
-        <div className="p-4 space-y-3 bg-white dark:bg-gray-800 sticky top-14 z-10 border-b border-gray-200 dark:border-gray-700">
-          <div className="relative">
+        <div className="p-4 md:p-6 lg:p-8 space-y-3 bg-white dark:bg-gray-800 sticky top-14 md:top-16 z-10 border-b border-gray-200 dark:border-gray-700">
+          <div className="relative max-w-2xl">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <Input
               placeholder="Search articles..."
@@ -66,56 +65,56 @@ export const ArticlesScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Featured Article */}
-        {filteredArticles.length > 0 && (
-          <div className="p-4">
-            <h3 className="text-gray-900 dark:text-white mb-3">Featured</h3>
-            <Card
-              className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
-              onClick={() => navigate(`/patient/article/${filteredArticles[0].id}`)}
-            >
-              <div className="aspect-video bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1535914254981-b5012eebbd15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGglMjB3ZWxsbmVzc3xlbnwxfHx8fDE3NjE3NDM0OTh8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                  alt={filteredArticles[0].title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <Badge className="mb-2 bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300">
-                  {filteredArticles[0].category}
-                </Badge>
-                <h3 className="text-gray-900 dark:text-white mb-2">
-                  {filteredArticles[0].title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-3">
-                  {filteredArticles[0].excerpt}
-                </p>
-                <div className="flex items-center gap-4 text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    <span>{filteredArticles[0].readTime}</span>
-                  </div>
-                  <span>•</span>
-                  <span>{new Date(filteredArticles[0].date).toLocaleDateString()}</span>
-                </div>
-              </div>
-            </Card>
-          </div>
-        )}
-
-        {/* Articles List */}
-        <div className="p-4">
-          <h3 className="text-gray-900 dark:text-white mb-3">Recent Articles</h3>
-          <div className="space-y-3">
-            {filteredArticles.slice(1).map((article) => (
+        <div className="p-4 md:p-6 lg:p-8">
+          {/* Featured Article */}
+          {filteredArticles.length > 0 && (
+            <div className="mb-8">
+              <h3 className="text-gray-900 dark:text-white mb-4">Featured</h3>
               <Card
-                key={article.id}
-                className="p-4 cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => navigate(`/patient/article/${article.id}`)}
+                className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow max-w-3xl"
+                onClick={() => navigate(`/patient/article/${filteredArticles[0].id}`)}
               >
-                <div className="flex gap-3">
-                  <div className="w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded-lg flex-shrink-0 overflow-hidden">
+                <div className="aspect-video bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                  <ImageWithFallback
+                    src="https://images.unsplash.com/photo-1535914254981-b5012eebbd15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGglMjB3ZWxsbmVzc3xlbnwxfHx8fDE3NjE3NDM0OTh8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                    alt={filteredArticles[0].title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <Badge className="mb-2 bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300">
+                    {filteredArticles[0].category}
+                  </Badge>
+                  <h3 className="text-gray-900 dark:text-white mb-2">
+                    {filteredArticles[0].title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">
+                    {filteredArticles[0].excerpt}
+                  </p>
+                  <div className="flex items-center gap-4 text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-4 h-4" />
+                      <span>{filteredArticles[0].readTime}</span>
+                    </div>
+                    <span>•</span>
+                    <span>{new Date(filteredArticles[0].date).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          )}
+
+          {/* Articles Grid - Responsive */}
+          <div>
+            <h3 className="text-gray-900 dark:text-white mb-4">Recent Articles</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {filteredArticles.slice(1).map((article) => (
+                <Card
+                  key={article.id}
+                  className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex flex-col"
+                  onClick={() => navigate(`/patient/article/${article.id}`)}
+                >
+                  <div className="aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg mb-3 overflow-hidden">
                     <ImageWithFallback
                       src={
                         article.category === 'herbal'
@@ -126,14 +125,14 @@ export const ArticlesScreen: React.FC = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="flex-1">
-                    <Badge className="mb-2 bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300 text-xs">
+                  <div className="flex-1 flex flex-col">
+                    <Badge className="mb-2 bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300 text-xs w-fit">
                       {article.category}
                     </Badge>
-                    <h3 className="text-gray-900 dark:text-white mb-1 line-clamp-2">
+                    <h3 className="text-gray-900 dark:text-white mb-2 line-clamp-2">
                       {article.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
+                    <p className="text-gray-600 dark:text-gray-400 line-clamp-3 mb-3 flex-1">
                       {article.excerpt}
                     </p>
                     <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
@@ -141,9 +140,9 @@ export const ArticlesScreen: React.FC = () => {
                       <span>{article.readTime}</span>
                     </div>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              ))}
+            </div>
 
             {filteredArticles.length === 0 && (
               <div className="text-center py-12">
@@ -154,8 +153,6 @@ export const ArticlesScreen: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <BottomNav />
-    </MobileLayout>
+    </ResponsiveLayout>
   );
 };

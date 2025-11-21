@@ -21,16 +21,17 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}>
-      <div className="max-w-md mx-auto bg-white dark:bg-gray-800 min-h-screen shadow-xl">
+      {/* Mobile: max-w-md centered, Tablet: max-w-3xl, Desktop: max-w-7xl */}
+      <div className="max-w-md md:max-w-3xl lg:max-w-7xl mx-auto bg-white dark:bg-gray-800 min-h-screen md:shadow-xl">
         {title && (
           <div className="sticky top-0 z-10 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-between px-4 h-14">
+            <div className="flex items-center justify-between px-4 md:px-6 lg:px-8 h-14 md:h-16">
               {showBack ? (
                 <button
                   onClick={() => navigate(-1)}
                   className="p-2 -ml-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
                 >
-                  <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-200" />
+                  <ArrowLeft className="w-5 h-5 md:w-6 md:h-6 text-gray-700 dark:text-gray-200" />
                 </button>
               ) : (
                 <div className="w-9" />

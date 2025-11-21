@@ -72,7 +72,7 @@ export const BookAppointment: React.FC = () => {
               mode="single"
               selected={date}
               onSelect={setDate}
-              disabled={(date: Date) => date < new Date()}
+              disabled={(date) => date < new Date()}
               className="rounded-md border-0"
             />
           </Card>

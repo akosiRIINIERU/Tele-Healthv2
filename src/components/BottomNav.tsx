@@ -27,9 +27,12 @@ export const BottomNav: React.FC = () => {
   const navItems = user?.role === 'doctor' ? doctorNavItems : patientNavItems;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <nav
+      className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 md:hidden"
+      aria-label="Mobile navigation"
+    >
       <div className="max-w-md mx-auto">
-        <div className="flex justify-around items-center h-16">
+        <div className="flex justify-around items-center h-16" role="tablist">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -37,7 +40,13 @@ export const BottomNav: React.FC = () => {
               <button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className="flex flex-col items-center justify-center flex-1 h-full"
+                className={`flex flex-col items-center justify-center flex-1 h-full focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-inset transition-colors ${
+                  isActive ? 'bg-pink-50 dark:bg-pink-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                }`}
+                aria-label={item.label}
+                aria-current={isActive ? 'page' : undefined}
+                role="tab"
+                aria-selected={isActive}
               >
                 <Icon
                   className={`w-5 h-5 mb-1 ${
@@ -45,6 +54,7 @@ export const BottomNav: React.FC = () => {
                       ? 'text-pink-500'
                       : 'text-gray-500 dark:text-gray-400'
                   }`}
+                  aria-hidden="true"
                 />
                 <span
                   className={`text-xs ${
@@ -60,6 +70,6 @@ export const BottomNav: React.FC = () => {
           })}
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
