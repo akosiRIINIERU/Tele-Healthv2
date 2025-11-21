@@ -39,8 +39,8 @@ export const Login: React.FC = () => {
     
     try {
       // For demo purposes, use one of the seeded accounts
-      const demoEmail = role === 'doctor' ? 'dr.smith@healthcare.com' : 'patient@demo.com';
-      const demoPassword = role === 'doctor' ? 'doctor123' : 'patient123';
+      const demoEmail = role === 'doctor' ? 'dr.smith@healthcare.com' : 'jaja@telehealth';
+      const demoPassword = role === 'doctor' ? 'doctor123' : 'jaja';
       
       await login(demoEmail, demoPassword, role);
       navigate(role === 'patient' ? '/patient/dashboard' : '/doctor/dashboard');
