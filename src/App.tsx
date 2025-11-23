@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { CartProvider } from './contexts/CartContext';
 import { Toaster } from './components/ui/sonner';
 import { initDatabase } from './lib/initDatabase';
 
@@ -21,6 +22,11 @@ import { ArticleDetail } from './components/patient/ArticleDetail';
 import { HealthTipsScreen } from './components/patient/HealthTipsScreen';
 import { ProfileScreen } from './components/patient/ProfileScreen';
 import { PaymentScreen } from './components/patient/PaymentScreen';
+import { MedicineShop } from './components/patient/MedicineShop';
+import { MedicineDetail } from './components/patient/MedicineDetail';
+import { Cart } from './components/patient/Cart';
+import { Checkout } from './components/patient/Checkout';
+import { Orders } from './components/patient/Orders';
 
 // Doctor Components
 import { DoctorDashboard } from './components/doctor/DoctorDashboard';
@@ -77,6 +83,11 @@ const AppRoutes: React.FC = () => {
       <Route path="/patient/edit-profile" element={<ProtectedRoute allowedRole="patient"><EditProfile /></ProtectedRoute>} />
       <Route path="/patient/call/:id" element={<ProtectedRoute allowedRole="patient"><CallScreen /></ProtectedRoute>} />
       <Route path="/patient/menu" element={<ProtectedRoute allowedRole="patient"><MenuScreen /></ProtectedRoute>} />
+      <Route path="/patient/medicine-shop" element={<ProtectedRoute allowedRole="patient"><MedicineShop /></ProtectedRoute>} />
+      <Route path="/patient/medicine/:id" element={<ProtectedRoute allowedRole="patient"><MedicineDetail /></ProtectedRoute>} />
+      <Route path="/patient/cart" element={<ProtectedRoute allowedRole="patient"><Cart /></ProtectedRoute>} />
+      <Route path="/patient/checkout" element={<ProtectedRoute allowedRole="patient"><Checkout /></ProtectedRoute>} />
+      <Route path="/patient/orders" element={<ProtectedRoute allowedRole="patient"><Orders /></ProtectedRoute>} />
 
       {/* Doctor Routes */}
       <Route path="/doctor/dashboard" element={<ProtectedRoute allowedRole="doctor"><DoctorDashboard /></ProtectedRoute>} />
@@ -108,12 +119,14 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <Router>
-          <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-            <AppRoutes />
-            <Toaster position="top-center" />
-          </div>
-        </Router>
+        <CartProvider>
+          <Router>
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+              <AppRoutes />
+              <Toaster position="top-center" />
+            </div>
+          </Router>
+        </CartProvider>
       </AuthProvider>
     </ThemeProvider>
   );

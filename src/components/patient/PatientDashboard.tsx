@@ -13,6 +13,7 @@ import {
   Bell,
   Settings,
   Menu,
+  Pill,
 } from 'lucide-react';
 import { mockDoctors, mockHealthTips } from '../../lib/mockData';
 import { Button } from '../ui/button';
@@ -29,16 +30,16 @@ export const PatientDashboard: React.FC = () => {
       path: '/patient/doctors',
     },
     {
+      icon: Pill,
+      label: 'Medicine Shop',
+      color: 'bg-teal-100 text-teal-500',
+      path: '/patient/medicine-shop',
+    },
+    {
       icon: MessageCircle,
       label: 'Chat',
       color: 'bg-blue-100 text-blue-500',
       path: '/patient/chat',
-    },
-    {
-      icon: Phone,
-      label: 'Call Doctor',
-      color: 'bg-green-100 text-green-500',
-      path: '/patient/call',
     },
     {
       icon: FileText,

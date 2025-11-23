@@ -5,7 +5,7 @@ import { Card } from '../ui/card';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
-import { Search, Clock, BookOpen } from 'lucide-react';
+import { Search, Clock, BookOpen, AlertTriangle } from 'lucide-react';
 import { mockArticles } from '../../lib/mockData';
 
 export const ArticlesScreen: React.FC = () => {
@@ -37,6 +37,22 @@ export const ArticlesScreen: React.FC = () => {
       <div>
         {/* Search and Filter */}
         <div className="p-4 md:p-6 lg:p-8 space-y-3 bg-white dark:bg-gray-800 sticky top-14 md:top-16 z-10 border-b border-gray-200 dark:border-gray-700">
+          {/* Disclaimer */}
+          <Card className="p-4 bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-amber-900 dark:text-amber-100 mb-1">Medical Disclaimer</h4>
+                <p className="text-amber-800 dark:text-amber-200">
+                  This is a demo app. The health articles provided are for educational and informational purposes only 
+                  and should not be considered as medical advice, diagnosis, or treatment. Always seek the guidance 
+                  of a qualified healthcare provider with any questions you may have regarding a medical condition 
+                  or treatment.
+                </p>
+              </div>
+            </div>
+          </Card>
+
           <div className="relative max-w-2xl">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <Input

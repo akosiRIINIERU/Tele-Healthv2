@@ -3,7 +3,7 @@ import { MobileLayout } from '../MobileLayout';
 import { BottomNav } from '../BottomNav';
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { Droplets, Moon, Activity, Apple, Heart, Sun } from 'lucide-react';
+import { Droplets, Moon, Activity, Apple, Heart, Sun, AlertTriangle } from 'lucide-react';
 import { mockHealthTips } from '../../lib/mockData';
 
 const iconMap: Record<string, any> = {
@@ -19,6 +19,21 @@ export const HealthTipsScreen: React.FC = () => {
   return (
     <MobileLayout title="Daily Health Tips" showBack>
       <div className="pb-20 p-4">
+        {/* Disclaimer */}
+        <Card className="p-4 mb-6 bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <h4 className="text-amber-900 dark:text-amber-100 mb-1">Medical Disclaimer</h4>
+              <p className="text-amber-800 dark:text-amber-200">
+                This is a demo app. The health tips provided are for informational purposes only 
+                and are not intended as medical advice. Always consult with a qualified healthcare 
+                professional before making any health-related decisions.
+              </p>
+            </div>
+          </div>
+        </Card>
+
         {/* Today's Tip */}
         <div className="mb-6">
           <h3 className="text-gray-900 dark:text-white mb-3">Today's Featured Tip</h3>

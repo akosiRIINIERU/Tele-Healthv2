@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Calendar, MessageCircle, FileText, User } from 'lucide-react';
+import { Home, Calendar, MessageCircle, FileText, User, Pill } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export const BottomNav: React.FC = () => {
@@ -11,8 +11,8 @@ export const BottomNav: React.FC = () => {
   const patientNavItems = [
     { icon: Home, label: 'Home', path: '/patient/dashboard' },
     { icon: Calendar, label: 'Appointments', path: '/patient/appointments' },
+    { icon: Pill, label: 'Shop', path: '/patient/medicine-shop' },
     { icon: MessageCircle, label: 'Chat', path: '/patient/chat' },
-    { icon: FileText, label: 'Articles', path: '/patient/articles' },
     { icon: User, label: 'Profile', path: '/patient/profile' },
   ];
 

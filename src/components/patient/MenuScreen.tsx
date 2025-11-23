@@ -16,6 +16,8 @@ import {
   Gift,
   Users,
   Star,
+  Pill,
+  ShoppingBag,
 } from 'lucide-react';
 
 export const MenuScreen: React.FC = () => {
@@ -26,14 +28,16 @@ export const MenuScreen: React.FC = () => {
       title: 'Main Features',
       items: [
         { icon: Calendar, label: 'Book Appointment', path: '/patient/doctors', color: 'text-pink-500' },
+        { icon: Pill, label: 'Medicine Shop', path: '/patient/medicine-shop', color: 'text-teal-500' },
         { icon: MessageCircle, label: 'Messages', path: '/patient/chat', color: 'text-blue-500' },
         { icon: FileText, label: 'Health Articles', path: '/patient/articles', color: 'text-purple-500' },
         { icon: Heart, label: 'Health Tips', path: '/patient/health-tips', color: 'text-red-500' },
       ],
     },
     {
-      title: 'Account',
+      title: 'Orders & Account',
       items: [
+        { icon: ShoppingBag, label: 'My Orders', path: '/patient/orders', color: 'text-orange-500' },
         { icon: Award, label: 'Rewards & Points', path: '/patient/rewards', color: 'text-yellow-500' },
         { icon: CreditCard, label: 'Payment Methods', path: '/patient/payments', color: 'text-green-500' },
         { icon: Settings, label: 'Settings', path: '/patient/settings', color: 'text-gray-500' },

@@ -56,6 +56,36 @@ export interface Message {
   isMe: boolean;
 }
 
+export interface Medicine {
+  id: string;
+  name: string;
+  category: 'prescription' | 'otc' | 'supplement' | 'firstaid' | 'herbal';
+  description: string;
+  price: number;
+  stock: number;
+  manufacturer: string;
+  dosage: string;
+  requiresPrescription: boolean;
+  image: string;
+  rating: number;
+  reviews: number;
+}
+
+export interface CartItem {
+  medicine: Medicine;
+  quantity: number;
+}
+
+export interface Order {
+  id: string;
+  items: CartItem[];
+  total: number;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  date: string;
+  deliveryAddress: string;
+  paymentMethod: string;
+}
+
 export const mockDoctors: Doctor[] = [
   {
     id: '1',
@@ -223,5 +253,115 @@ export const mockHealthTips: HealthTip[] = [
     icon: 'apple',
     category: 'Nutrition',
     date: '2025-10-30',
+  },
+];
+
+export const mockMedicines: Medicine[] = [
+  {
+    id: '1',
+    name: 'Paracetamol',
+    category: 'otc',
+    description: 'Pain reliever and fever reducer.',
+    price: 5,
+    stock: 100,
+    manufacturer: 'Johnson & Johnson',
+    dosage: '500mg',
+    requiresPrescription: false,
+    image: 'https://images.unsplash.com/photo-1535914254981-b5012eebbd15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGglMjB3ZWxsbmVzc3xlbnwxfHx8fDE3NjE3NDM0OTh8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    rating: 4.5,
+    reviews: 120,
+  },
+  {
+    id: '2',
+    name: 'Amoxicillin',
+    category: 'prescription',
+    description: 'Antibiotic for bacterial infections.',
+    price: 10,
+    stock: 50,
+    manufacturer: 'Pfizer',
+    dosage: '500mg',
+    requiresPrescription: true,
+    image: 'https://images.unsplash.com/photo-1545840716-c82e9eec6930?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZXJiYWwlMjBtZWRpY2luZXxlbnwxfHx8fDE3NjE3OTAwMzN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    rating: 4.7,
+    reviews: 80,
+  },
+  {
+    id: '3',
+    name: 'Vitamin C',
+    category: 'supplement',
+    description: 'Immune booster and antioxidant.',
+    price: 15,
+    stock: 75,
+    manufacturer: 'Nature Made',
+    dosage: '500mg',
+    requiresPrescription: false,
+    image: 'https://images.unsplash.com/photo-1535914254981-b5012eebbd15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGglMjB3ZWxsbmVzc3xlbnwxfHx8fDE3NjE3NDM0OTh8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    rating: 4.8,
+    reviews: 150,
+  },
+  {
+    id: '4',
+    name: 'Band-Aid',
+    category: 'firstaid',
+    description: 'Adhesive bandage for minor cuts and scrapes.',
+    price: 2,
+    stock: 200,
+    manufacturer: 'Johnson & Johnson',
+    dosage: 'N/A',
+    requiresPrescription: false,
+    image: 'https://images.unsplash.com/photo-1545840716-c82e9eec6930?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZXJiYWwlMjBtZWRpY2luZXxlbnwxfHx8fDE3NjE3OTAwMzN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    rating: 4.6,
+    reviews: 100,
+  },
+  {
+    id: '5',
+    name: 'Echinacea',
+    category: 'herbal',
+    description: 'Herbal supplement to boost immune system.',
+    price: 12,
+    stock: 60,
+    manufacturer: 'Herbalife',
+    dosage: '500mg',
+    requiresPrescription: false,
+    image: 'https://images.unsplash.com/photo-1535914254981-b5012eebbd15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGglMjB3ZWxsbmVzc3xlbnwxfHx8fDE3NjE3NDM0OTh8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    rating: 4.4,
+    reviews: 90,
+  },
+];
+
+export const mockCartItems: CartItem[] = [
+  {
+    medicine: mockMedicines[0],
+    quantity: 2,
+  },
+  {
+    medicine: mockMedicines[2],
+    quantity: 1,
+  },
+];
+
+export const mockOrders: Order[] = [
+  {
+    id: '1',
+    items: mockCartItems,
+    total: 25,
+    status: 'pending',
+    date: '2025-11-01',
+    deliveryAddress: '123 Main St, Anytown, USA',
+    paymentMethod: 'Credit Card',
+  },
+  {
+    id: '2',
+    items: [
+      {
+        medicine: mockMedicines[1],
+        quantity: 3,
+      },
+    ],
+    total: 30,
+    status: 'shipped',
+    date: '2025-10-30',
+    deliveryAddress: '456 Elm St, Othertown, USA',
+    paymentMethod: 'PayPal',
   },
 ];

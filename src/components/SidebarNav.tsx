@@ -13,6 +13,8 @@ import {
   Stethoscope,
   CreditCard,
   Menu as MenuIcon,
+  Pill,
+  ShoppingBag,
 } from 'lucide-react';
 import { Button } from './ui/button';
 
@@ -27,6 +29,8 @@ export const SidebarNav: React.FC = () => {
     { icon: Home, label: 'Dashboard', path: '/patient/dashboard' },
     { icon: Stethoscope, label: 'Find Doctors', path: '/patient/doctors' },
     { icon: Calendar, label: 'Appointments', path: '/patient/appointments' },
+    { icon: Pill, label: 'Medicine Shop', path: '/patient/medicine-shop' },
+    { icon: ShoppingBag, label: 'My Orders', path: '/patient/orders' },
     { icon: MessageCircle, label: 'Chat', path: '/patient/chat' },
     { icon: FileText, label: 'Articles', path: '/patient/articles' },
     { icon: Heart, label: 'Health Tips', path: '/patient/health-tips' },
