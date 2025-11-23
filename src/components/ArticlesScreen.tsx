@@ -1,209 +1,174 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Badge } from './ui/badge';
-import { Article, User } from '../App';
-import { 
-  ArrowLeft,
-  Search,
-  BookOpen,
-  Calendar,
-  Leaf
-} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ResponsiveLayout } from '../ResponsiveLayout';
+import { Card } from '../ui/card';
+import { Input } from '../ui/input';
+import { Badge } from '../ui/badge';
+import { ImageWithFallback } from '../figma/ImageWithFallback';
+import { Search, Clock, BookOpen, AlertTriangle } from 'lucide-react';
+import { mockArticles } from '../../lib/mockData';
 
-interface ArticlesScreenProps {
-  articles: Article[];
-  selectedArticle?: Article | null;
-  currentUser: User | null;
-  onNavigate: (screen: string, data?: any) => void;
-}
-
-export function ArticlesScreen({ articles, selectedArticle, currentUser, onNavigate }: ArticlesScreenProps) {
+export const ArticlesScreen: React.FC = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState<'all' | 'illness' | 'herbal' | 'wellness'>('all');
 
-  const categories = ['all', ...new Set(articles.map(a => a.category))];
-  
-  const filteredArticles = articles.filter(article => {
-    const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         article.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         article.herbs?.some(herb => herb.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                         article.symptoms?.some(symptom => symptom.toLowerCase().includes(searchQuery.toLowerCase()));
-    const matchesCategory = selectedCategory === 'all' || article.category === selectedCategory;
+  const filteredArticles = mockArticles.filter((article) => {
+    const matchesSearch = 
+      article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      article.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesCategory = 
+      selectedCategory === 'all' || 
+      article.category === selectedCategory;
+
     return matchesSearch && matchesCategory;
   });
 
-  if (selectedArticle) {
-    return (
-      <div className="p-4 space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={() => onNavigate('articles')}>
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <h1>Article Details</h1>
-        </div>
-
-        {/* Article Content */}
-        <div className="space-y-4">
-          <img 
-            src={selectedArticle.image} 
-            alt={selectedArticle.title}
-            className="w-full h-48 object-cover rounded-lg"
-          />
-          
-          <div>
-            <Badge variant="secondary" className="mb-2">
-              {selectedArticle.category}
-            </Badge>
-            <h2>{selectedArticle.title}</h2>
-            <p className="text-muted-foreground mt-2">{selectedArticle.content}</p>
-          </div>
-
-          {selectedArticle.symptoms && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Common Symptoms</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {selectedArticle.symptoms.map((symptom) => (
-                    <Badge key={symptom} variant="outline">
-                      {symptom}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {selectedArticle.herbs && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Leaf className="h-5 w-5 text-green-600" />
-                  Recommended Herbs
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {selectedArticle.herbs.map((herb) => (
-                    <div key={herb} className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
-                      <Leaf className="h-4 w-4 text-green-600" />
-                      <span>{herb}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {currentUser?.type === 'patient' && (
-            <Card className="bg-pink-50 border-pink-200">
-              <CardContent className="p-4 text-center">
-                <p className="text-sm text-pink-800 mb-3">
-                  Need professional consultation about this condition?
-                </p>
-                <Button onClick={() => onNavigate('doctors')}>
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Book Appointment
-                </Button>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-      </div>
-    );
-  }
+  const categories = [
+    { value: 'all', label: 'All' },
+    { value: 'illness', label: 'Illness Info' },
+    { value: 'herbal', label: 'Herbal Remedies' },
+    { value: 'wellness', label: 'Wellness' },
+  ];
 
   return (
-    <div className="p-4 space-y-4">
-      {/* Header */}
-      <div className="flex items-center gap-3">
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          onClick={() => onNavigate(currentUser?.type === 'patient' ? 'patient-dashboard' : 'doctor-dashboard')}
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <h1>Health Articles</h1>
-      </div>
-
-      {/* Search */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder="Search articles, herbs, or symptoms..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10"
-        />
-      </div>
-
-      {/* Category Filter */}
-      <div className="flex gap-2 overflow-x-auto pb-2">
-        {categories.map((category) => (
-          <Button
-            key={category}
-            variant={selectedCategory === category ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setSelectedCategory(category)}
-            className="whitespace-nowrap"
-          >
-            {category === 'all' ? 'All Categories' : category}
-          </Button>
-        ))}
-      </div>
-
-      {/* Articles List */}
-      <div className="space-y-4">
-        {filteredArticles.map((article) => (
-          <Card 
-            key={article.id} 
-            className="cursor-pointer hover:shadow-md transition-shadow"
-            onClick={() => onNavigate('article-detail', { article })}
-          >
-            <CardContent className="p-4">
-              <div className="flex gap-3">
-                <img 
-                  src={article.image} 
-                  alt={article.title}
-                  className="w-20 h-20 object-cover rounded-lg"
-                />
-                
-                <div className="flex-1">
-                  <Badge variant="secondary" className="mb-2 text-xs">
-                    {article.category}
-                  </Badge>
-                  <h3 className="font-medium mb-1">{article.title}</h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2">
-                    {article.content}
-                  </p>
-                  
-                  {article.herbs && (
-                    <div className="flex items-center gap-1 mt-2">
-                      <Leaf className="h-3 w-3 text-green-600" />
-                      <span className="text-xs text-green-600">
-                        {article.herbs.length} herbs recommended
-                      </span>
-                    </div>
-                  )}
-                </div>
-                
-                <BookOpen className="h-5 w-5 text-muted-foreground" />
+    <ResponsiveLayout title="Health Articles">
+      <div>
+        {/* Search and Filter */}
+        <div className="p-4 md:p-6 lg:p-8 space-y-3 bg-white dark:bg-gray-800 sticky top-14 md:top-16 z-10 border-b border-gray-200 dark:border-gray-700">
+          {/* Disclaimer */}
+          <Card className="p-4 bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-amber-900 dark:text-amber-100 mb-1">Medical Disclaimer</h4>
+                <p className="text-amber-800 dark:text-amber-200">
+                  This is a demo app. The health articles provided are for educational and informational purposes only 
+                  and should not be considered as medical advice, diagnosis, or treatment. Always seek the guidance 
+                  of a qualified healthcare provider with any questions you may have regarding a medical condition 
+                  or treatment.
+                </p>
               </div>
-            </CardContent>
+            </div>
           </Card>
-        ))}
-      </div>
 
-      {filteredArticles.length === 0 && (
-        <div className="text-center py-8">
-          <p className="text-muted-foreground">No articles found matching your search.</p>
+          <div className="relative max-w-2xl">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Input
+              placeholder="Search articles..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {categories.map((cat) => (
+              <Badge
+                key={cat.value}
+                variant={selectedCategory === cat.value ? 'default' : 'outline'}
+                className={`cursor-pointer whitespace-nowrap ${
+                  selectedCategory === cat.value 
+                    ? 'bg-pink-500 hover:bg-pink-600' 
+                    : ''
+                }`}
+                onClick={() => setSelectedCategory(cat.value as any)}
+              >
+                {cat.label}
+              </Badge>
+            ))}
+          </div>
         </div>
-      )}
-    </div>
+
+        <div className="p-4 md:p-6 lg:p-8">
+          {/* Featured Article */}
+          {filteredArticles.length > 0 && (
+            <div className="mb-8">
+              <h3 className="text-gray-900 dark:text-white mb-4">Featured</h3>
+              <Card
+                className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow max-w-3xl"
+                onClick={() => navigate(`/patient/article/${filteredArticles[0].id}`)}
+              >
+                <div className="aspect-video bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                  <ImageWithFallback
+                    src="https://images.unsplash.com/photo-1535914254981-b5012eebbd15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGglMjB3ZWxsbmVzc3xlbnwxfHx8fDE3NjE3NDM0OTh8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                    alt={filteredArticles[0].title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <Badge className="mb-2 bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300">
+                    {filteredArticles[0].category}
+                  </Badge>
+                  <h3 className="text-gray-900 dark:text-white mb-2">
+                    {filteredArticles[0].title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3">
+                    {filteredArticles[0].excerpt}
+                  </p>
+                  <div className="flex items-center gap-4 text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-4 h-4" />
+                      <span>{filteredArticles[0].readTime}</span>
+                    </div>
+                    <span>•</span>
+                    <span>{new Date(filteredArticles[0].date).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          )}
+
+          {/* Articles Grid - Responsive */}
+          <div>
+            <h3 className="text-gray-900 dark:text-white mb-4">Recent Articles</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {filteredArticles.slice(1).map((article) => (
+                <Card
+                  key={article.id}
+                  className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex flex-col"
+                  onClick={() => navigate(`/patient/article/${article.id}`)}
+                >
+                  <div className="aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg mb-3 overflow-hidden">
+                    <ImageWithFallback
+                      src={
+                        article.category === 'herbal'
+                          ? 'https://images.unsplash.com/photo-1545840716-c82e9eec6930?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZXJiYWwlMjBtZWRpY2luZXxlbnwxfHx8fDE3NjE3OTAwMzN8MA&ixlib=rb-4.1.0&q=80&w=1080'
+                          : 'https://images.unsplash.com/photo-1535914254981-b5012eebbd15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGglMjB3ZWxsbmVzc3xlbnwxfHx8fDE3NjE3NDM0OTh8MA&ixlib=rb-4.1.0&q=80&w=1080'
+                      }
+                      alt={article.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 flex flex-col">
+                    <Badge className="mb-2 bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300 text-xs w-fit">
+                      {article.category}
+                    </Badge>
+                    <h3 className="text-gray-900 dark:text-white mb-2 line-clamp-2">
+                      {article.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 line-clamp-3 mb-3 flex-1">
+                      {article.excerpt}
+                    </p>
+                    <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                      <Clock className="w-3 h-3" />
+                      <span>{article.readTime}</span>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            {filteredArticles.length === 0 && (
+              <div className="text-center py-12">
+                <BookOpen className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                <p className="text-gray-500 dark:text-gray-400">No articles found</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </ResponsiveLayout>
   );
-}
+};
