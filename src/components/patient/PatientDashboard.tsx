@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useSubscription } from '../../contexts/SubscriptionContext';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { Card } from '../ui/card';
 import {
@@ -14,6 +15,8 @@ import {
   Settings,
   Menu,
   Pill,
+  Crown,
+  Sparkles,
 } from 'lucide-react';
 import { mockDoctors, mockHealthTips } from '../../lib/mockData';
 import { Button } from '../ui/button';
@@ -21,6 +24,7 @@ import { Button } from '../ui/button';
 export const PatientDashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { hasActiveSubscription, subscription } = useSubscription();
 
   const quickActions = [
     {
@@ -86,6 +90,61 @@ export const PatientDashboard: React.FC = () => {
             </Button>
           </div>
         </div>
+
+        {/* Subscription Banner */}
+        {!hasActiveSubscription && (
+          <div className="px-4 md:px-6 lg:px-8 pt-6">
+            <Card className="p-6 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-800 cursor-pointer hover:shadow-lg transition-shadow"
+              onClick={() => navigate('/patient/subscription-plans')}
+            >
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl">
+                  <Crown className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-gray-900 dark:text-white">
+                      Upgrade to Premium
+                    </h3>
+                    <Sparkles className="w-4 h-4 text-yellow-500" />
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-3">
+                    Get unlimited 24/7 chat, free bookings, and exclusive benefits starting at ₱99/month
+                  </p>
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white border-0"
+                  >
+                    View Plans
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          </div>
+        )}
+
+        {/* Active Subscription Banner */}
+        {hasActiveSubscription && subscription && (
+          <div className="px-4 md:px-6 lg:px-8 pt-6">
+            <Card className="p-4 bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 border-pink-200 dark:border-pink-800 cursor-pointer hover:shadow-lg transition-shadow"
+              onClick={() => navigate('/patient/subscription')}
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-pink-500 rounded-lg">
+                  <Crown className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-gray-900 dark:text-white text-sm">
+                    <strong>{subscription.tier.charAt(0).toUpperCase() + subscription.tier.slice(1)} Plan</strong> • Active
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-400 text-xs">
+                    Tap to manage subscription
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </div>
+        )}
 
         {/* Quick Actions */}
         <div className="px-4 md:px-6 lg:px-8 py-6">

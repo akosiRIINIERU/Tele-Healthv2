@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { CartProvider } from './contexts/CartContext';
+import { SubscriptionProvider } from './contexts/SubscriptionContext';
 import { Toaster } from './components/ui/sonner';
 import { initDatabase } from './lib/initDatabase';
 
@@ -27,12 +28,18 @@ import { MedicineDetail } from './components/patient/MedicineDetail';
 import { Cart } from './components/patient/Cart';
 import { Checkout } from './components/patient/Checkout';
 import { Orders } from './components/patient/Orders';
+import { SubscriptionPlans } from './components/patient/SubscriptionPlans';
+import { SubscriptionManagement } from './components/patient/SubscriptionManagement';
+import { NotificationsScreen } from './components/patient/NotificationsScreen';
+import { RewardsScreen } from './components/patient/RewardsScreen';
+import { MedicalRecords } from './components/patient/MedicalRecords';
 
 // Doctor Components
 import { DoctorDashboard } from './components/doctor/DoctorDashboard';
 import { DoctorAppointments } from './components/doctor/DoctorAppointments';
 import { WithdrawalScreen } from './components/doctor/WithdrawalScreen';
 import { DoctorProfile } from './components/doctor/DoctorProfile';
+import { PrescriptionManagement } from './components/doctor/PrescriptionManagement';
 
 // Shared Components
 import { SettingsScreen } from './components/shared/SettingsScreen';
@@ -88,6 +95,11 @@ const AppRoutes: React.FC = () => {
       <Route path="/patient/cart" element={<ProtectedRoute allowedRole="patient"><Cart /></ProtectedRoute>} />
       <Route path="/patient/checkout" element={<ProtectedRoute allowedRole="patient"><Checkout /></ProtectedRoute>} />
       <Route path="/patient/orders" element={<ProtectedRoute allowedRole="patient"><Orders /></ProtectedRoute>} />
+      <Route path="/patient/subscription-plans" element={<ProtectedRoute allowedRole="patient"><SubscriptionPlans /></ProtectedRoute>} />
+      <Route path="/patient/subscription" element={<ProtectedRoute allowedRole="patient"><SubscriptionManagement /></ProtectedRoute>} />
+      <Route path="/patient/notifications" element={<ProtectedRoute allowedRole="patient"><NotificationsScreen /></ProtectedRoute>} />
+      <Route path="/patient/rewards" element={<ProtectedRoute allowedRole="patient"><RewardsScreen /></ProtectedRoute>} />
+      <Route path="/patient/medical-records" element={<ProtectedRoute allowedRole="patient"><MedicalRecords /></ProtectedRoute>} />
 
       {/* Doctor Routes */}
       <Route path="/doctor/dashboard" element={<ProtectedRoute allowedRole="doctor"><DoctorDashboard /></ProtectedRoute>} />
@@ -101,6 +113,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/doctor/withdrawals" element={<ProtectedRoute allowedRole="doctor"><WithdrawalScreen /></ProtectedRoute>} />
       <Route path="/doctor/edit-profile" element={<ProtectedRoute allowedRole="doctor"><EditProfile /></ProtectedRoute>} />
       <Route path="/doctor/call/:id" element={<ProtectedRoute allowedRole="doctor"><CallScreen /></ProtectedRoute>} />
+      <Route path="/doctor/prescriptions" element={<ProtectedRoute allowedRole="doctor"><PrescriptionManagement /></ProtectedRoute>} />
 
       {/* Default Route */}
       <Route path="/" element={<Navigate to="/login" replace />} />
@@ -119,14 +132,16 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <CartProvider>
-          <Router>
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-              <AppRoutes />
-              <Toaster position="top-center" />
-            </div>
-          </Router>
-        </CartProvider>
+        <SubscriptionProvider>
+          <CartProvider>
+            <Router>
+              <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+                <AppRoutes />
+                <Toaster position="top-center" />
+              </div>
+            </Router>
+          </CartProvider>
+        </SubscriptionProvider>
       </AuthProvider>
     </ThemeProvider>
   );

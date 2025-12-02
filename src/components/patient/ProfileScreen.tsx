@@ -51,7 +51,7 @@ export const ProfileScreen: React.FC = () => {
     {
       icon: FileText,
       label: 'Medical Records',
-      path: '/patient/records',
+      path: '/patient/medical-records',
       color: 'text-orange-500',
     },
     {

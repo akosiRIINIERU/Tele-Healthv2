@@ -6,8 +6,9 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
-import { Upload, CreditCard, CheckCircle } from 'lucide-react';
+import { Upload, CreditCard, CheckCircle, Crown, Sparkles } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
+import { useSubscription } from '../../contexts/SubscriptionContext';
 import { toast } from 'sonner';
 import { Badge } from '../ui/badge';
 

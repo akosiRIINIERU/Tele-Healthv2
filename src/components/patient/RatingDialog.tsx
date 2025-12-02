@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -19,6 +19,8 @@ interface RatingDialogProps {
   doctorId: string;
   appointmentId: string;
   onRatingSubmit?: (rating: number, review: string) => void;
+  existingRating?: number;
+  existingReview?: string;
 }
 
 export const RatingDialog: React.FC<RatingDialogProps> = ({
@@ -28,11 +30,21 @@ export const RatingDialog: React.FC<RatingDialogProps> = ({
   doctorId,
   appointmentId,
   onRatingSubmit,
+  existingRating = 0,
+  existingReview = '',
 }) => {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(existingRating);
   const [hoverRating, setHoverRating] = useState(0);
-  const [review, setReview] = useState('');
+  const [review, setReview] = useState(existingReview);
   const [submitting, setSubmitting] = useState(false);
+
+  // Update state when dialog opens with existing values
+  useEffect(() => {
+    if (open) {
+      setRating(existingRating);
+      setReview(existingReview);
+    }
+  }, [open, existingRating, existingReview]);
 
   const handleSubmit = async () => {
     if (rating === 0) {

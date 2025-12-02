@@ -15,6 +15,8 @@ import {
   Menu,
   CheckCircle,
   XCircle,
+  Pill,
+  FileText,
 } from 'lucide-react';
 import { mockAppointments } from '../../lib/mockData';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -230,10 +232,24 @@ export const DoctorDashboard: React.FC = () => {
             <div className="grid grid-cols-2 lg:grid-cols-1 gap-3 md:gap-4">
               <Card
                 className="p-4 md:p-6 cursor-pointer hover:shadow-lg transition-shadow"
+                onClick={() => navigate('/doctor/prescriptions')}
+              >
+                <Pill className="w-8 h-8 md:w-10 md:h-10 text-blue-500 mb-2" />
+                <p className="text-gray-900 dark:text-white">Prescriptions</p>
+              </Card>
+              <Card
+                className="p-4 md:p-6 cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={() => navigate('/doctor/patients')}
               >
                 <Users className="w-8 h-8 md:w-10 md:h-10 text-pink-500 mb-2" />
                 <p className="text-gray-900 dark:text-white">View Patients</p>
+              </Card>
+              <Card
+                className="p-4 md:p-6 cursor-pointer hover:shadow-lg transition-shadow"
+                onClick={() => navigate('/doctor/articles')}
+              >
+                <FileText className="w-8 h-8 md:w-10 md:h-10 text-purple-500 mb-2" />
+                <p className="text-gray-900 dark:text-white">Health Articles</p>
               </Card>
               <Card
                 className="p-4 md:p-6 cursor-pointer hover:shadow-lg transition-shadow"

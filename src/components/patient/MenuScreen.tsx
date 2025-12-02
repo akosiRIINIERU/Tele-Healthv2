@@ -18,6 +18,7 @@ import {
   Star,
   Pill,
   ShoppingBag,
+  Crown,
 } from 'lucide-react';
 
 export const MenuScreen: React.FC = () => {
@@ -38,7 +39,8 @@ export const MenuScreen: React.FC = () => {
       title: 'Orders & Account',
       items: [
         { icon: ShoppingBag, label: 'My Orders', path: '/patient/orders', color: 'text-orange-500' },
-        { icon: Award, label: 'Rewards & Points', path: '/patient/rewards', color: 'text-yellow-500' },
+        { icon: Crown, label: 'Premium Subscription', path: '/patient/subscription-plans', color: 'text-yellow-500' },
+        { icon: Award, label: 'Rewards & Points', path: '/patient/rewards', color: 'text-purple-500' },
         { icon: CreditCard, label: 'Payment Methods', path: '/patient/payments', color: 'text-green-500' },
         { icon: Settings, label: 'Settings', path: '/patient/settings', color: 'text-gray-500' },
         { icon: HelpCircle, label: 'Help & Support', path: '/patient/support', color: 'text-indigo-500' },

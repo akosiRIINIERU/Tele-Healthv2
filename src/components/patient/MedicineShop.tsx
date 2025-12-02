@@ -156,7 +156,7 @@ export const MedicineShop: React.FC = () => {
                     </div>
                   </div>
                   <Button
-                    onClick={(e) => {
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                       e.stopPropagation();
                       handleAddToCart(filteredMedicines[0]);
                     }}
@@ -211,7 +211,7 @@ export const MedicineShop: React.FC = () => {
                       <span className="text-gray-500 dark:text-gray-400">Stock: {medicine.stock}</span>
                     </div>
                     <Button
-                      onClick={(e) => {
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.stopPropagation();
                         handleAddToCart(medicine);
                       }}

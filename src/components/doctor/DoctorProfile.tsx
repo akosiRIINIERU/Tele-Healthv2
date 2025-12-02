@@ -20,6 +20,7 @@ import {
   ChevronRight,
   Edit,
   Star,
+  Pill,
 } from 'lucide-react';
 
 export const DoctorProfile: React.FC = () => {
@@ -40,6 +41,12 @@ export const DoctorProfile: React.FC = () => {
       color: 'text-blue-500',
     },
     {
+      icon: FileText,
+      label: 'Prescriptions',
+      path: '/doctor/prescriptions',
+      color: 'text-teal-500',
+    },
+    {
       icon: Users,
       label: 'Patient Records',
       path: '/doctor/patients',
@@ -52,7 +59,7 @@ export const DoctorProfile: React.FC = () => {
       color: 'text-green-500',
     },
     {
-      icon: FileText,
+      icon: Award,
       label: 'Certifications',
       path: '/doctor/certifications',
       color: 'text-orange-500',

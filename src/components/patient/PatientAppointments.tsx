@@ -64,6 +64,15 @@ export const PatientAppointments: React.FC = () => {
     }
   };
 
+  // Helper function to check if appointment can be cancelled (3 days before)
+  const canCancelAppointment = (appointmentDate: string) => {
+    const today = new Date();
+    const apptDate = new Date(appointmentDate);
+    const diffTime = apptDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays >= 3;
+  };
+
   const upcomingAppointments = appointments.filter(
     apt => apt.status === 'confirmed' || apt.status === 'pending'
   );
@@ -152,7 +161,7 @@ export const PatientAppointments: React.FC = () => {
                         size="sm"
                         className="flex-1 focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
                         onClick={() => setSelectedAppointment(appointment.id)}
-                        disabled={appointment.cancelPending}
+                        disabled={appointment.cancelPending || !canCancelAppointment(appointment.date)}
                         aria-label={`Cancel appointment with ${appointment.doctorName}`}
                       >
                         <XCircle className="w-4 h-4 mr-1" aria-hidden="true" />
@@ -167,6 +176,11 @@ export const PatientAppointments: React.FC = () => {
                         View Details
                       </Button>
                     </div>
+                    {!canCancelAppointment(appointment.date) && !appointment.cancelPending && (
+                      <p className="text-xs text-orange-600 dark:text-orange-400 mt-2">
+                        Cancellation requires 3 days advance notice
+                      </p>
+                    )}
                   </Card>
                 ))}
               </div>
@@ -227,6 +241,20 @@ export const PatientAppointments: React.FC = () => {
                         </Button>
                       </div>
                     )}
+                    {appointment.status === 'completed' && appointment.rated && (
+                      <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="w-full focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+                          onClick={() => navigate(`/patient/doctor/${appointment.doctorId}`)}
+                          aria-label={`View doctor details to edit rating for ${appointment.doctorName}`}
+                        >
+                          <Star className="w-4 h-4 mr-2" aria-hidden="true" />
+                          View Doctor to Edit Rating
+                        </Button>
+                      </div>
+                    )}
                   </Card>
                 ))}
               </div>
@@ -264,6 +292,8 @@ export const PatientAppointments: React.FC = () => {
           doctorId={selectedRatingAppointment.doctorId}
           appointmentId={selectedRatingAppointment.id}
           onRatingSubmit={handleRatingSubmit}
+          existingRating={(selectedRatingAppointment as any).userRating || 0}
+          existingReview={(selectedRatingAppointment as any).userReview || ''}
         />
       )}
     </ResponsiveLayout>

@@ -72,6 +72,15 @@ export const DoctorAppointments: React.FC = () => {
     toast.success(approve ? 'Cancellation approved' : 'Cancellation request denied');
   };
 
+  // Helper function to check if appointment can be cancelled (3 days before)
+  const canCancelAppointment = (appointmentDate: string) => {
+    const today = new Date();
+    const apptDate = new Date(appointmentDate);
+    const diffTime = apptDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays >= 3;
+  };
+
   return (
     <MobileLayout title="Appointments">
       <div className="pb-20">

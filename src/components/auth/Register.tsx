@@ -88,7 +88,7 @@ export const Register: React.FC = () => {
             </p>
           </div>
 
-          <Tabs value={role} onValueChange={(v) => setRole(v as 'patient' | 'doctor')}>
+          <Tabs value={role} onValueChange={(v: string) => setRole(v as 'patient' | 'doctor')}>
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="patient" aria-label="Register as Patient">Patient</TabsTrigger>
               <TabsTrigger value="doctor" aria-label="Register as Doctor">Doctor</TabsTrigger>
@@ -201,7 +201,7 @@ export const Register: React.FC = () => {
                   
                   <div className="space-y-2">
                     <Label htmlFor="gender">Gender</Label>
-                    <Select value={formData.gender} onValueChange={(v) => handleChange('gender', v)}>
+                    <Select value={formData.gender} onValueChange={(v: string) => handleChange('gender', v)}>
                       <SelectTrigger aria-label="Select gender">
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>

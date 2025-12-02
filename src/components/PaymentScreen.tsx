@@ -59,7 +59,7 @@ export function PaymentScreen({ user, onNavigate }: PaymentScreenProps) {
       id: '2',
       type: user.type === 'patient' ? 'payment' : 'earning',
       amount: user.type === 'patient' ? -80 : 80,
-      description: user.type === 'patient' ? 'Dr. Michael Chen - Cardiology' : 'John Doe - Cardiology Consultation',
+      description: user.type === 'patient' ? 'Dr. Michael Chen - Cardiology' : 'Michael Myers - Cardiology Consultation',
       date: '2024-01-10',
       status: 'completed'
     }

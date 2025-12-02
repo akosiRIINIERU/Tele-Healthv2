@@ -7,11 +7,27 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Heart, Star, Calendar, MessageCircle, Phone, Award } from 'lucide-react';
 import { mockDoctors } from '../../lib/mockData';
+import { RatingDialog } from './RatingDialog';
+import { mockAppointments } from '../../lib/mockData';
 
 export const DoctorDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const doctor = mockDoctors.find((d) => d.id === id);
+  
+  // Check if patient has completed appointments with this doctor
+  const [ratingDialogOpen, setRatingDialogOpen] = React.useState(false);
+  const [userRating, setUserRating] = React.useState<number>(0);
+  const [userReview, setUserReview] = React.useState<string>('');
+  
+  const completedAppointment = mockAppointments.find(
+    apt => apt.doctorId === id && apt.status === 'completed'
+  );
+  
+  const handleRatingSubmit = (rating: number, review: string) => {
+    setUserRating(rating);
+    setUserReview(review);
+  };
 
   if (!doctor) {
     return (
@@ -116,7 +132,21 @@ export const DoctorDetail: React.FC = () => {
 
         {/* Reviews Section */}
         <div className="px-6 py-4">
-          <h3 className="text-gray-900 dark:text-white mb-3">Patient Reviews</h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-gray-900 dark:text-white">Patient Reviews</h3>
+            {completedAppointment && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setRatingDialogOpen(true)}
+                className="focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+                aria-label={userRating > 0 ? 'Edit your rating' : 'Rate this doctor'}
+              >
+                <Star className="w-4 h-4 mr-2" aria-hidden="true" />
+                {userRating > 0 ? 'Edit Rating' : 'Rate Doctor'}
+              </Button>
+            )}
+          </div>
           <Card className="p-4">
             <div className="space-y-4">
               <div>
@@ -189,6 +219,20 @@ export const DoctorDetail: React.FC = () => {
       </div>
 
       <BottomNav />
+      
+      {/* Rating Dialog */}
+      {completedAppointment && (
+        <RatingDialog
+          open={ratingDialogOpen}
+          onOpenChange={setRatingDialogOpen}
+          doctorName={doctor.name}
+          doctorId={doctor.id}
+          appointmentId={completedAppointment.id}
+          onRatingSubmit={handleRatingSubmit}
+          existingRating={userRating}
+          existingReview={userReview}
+        />
+      )}
     </MobileLayout>
   );
 };

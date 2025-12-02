@@ -39,8 +39,8 @@ export const Login: React.FC = () => {
     
     try {
       // For demo purposes, use one of the seeded accounts
-      const demoEmail = role === 'doctor' ? 'dr.smith@healthcare.com' : 'jaja@telehealth';
-      const demoPassword = role === 'doctor' ? 'doctor123' : 'jaja';
+      const demoEmail = role === 'doctor' ? 'sakura@telehealth' : 'Telma@telehealth';
+      const demoPassword = role === 'doctor' ? 'sakuralovesasuke' : 'telma';
       
       await login(demoEmail, demoPassword, role);
       navigate(role === 'patient' ? '/patient/dashboard' : '/doctor/dashboard');
@@ -69,7 +69,7 @@ export const Login: React.FC = () => {
             </p>
           </div>
 
-          <Tabs value={role} onValueChange={(v) => setRole(v as 'patient' | 'doctor')}>
+          <Tabs value={role} onValueChange={(v: string) => setRole(v as 'patient' | 'doctor')}>
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="patient" aria-label="Sign in as Patient">Patient</TabsTrigger>
               <TabsTrigger value="doctor" aria-label="Sign in as Doctor">Doctor</TabsTrigger>

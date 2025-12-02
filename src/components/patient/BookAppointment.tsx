@@ -6,18 +6,23 @@ import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Calendar } from '../ui/calendar';
-import { Heart, Check } from 'lucide-react';
+import { Heart, Check, Crown, Sparkles } from 'lucide-react';
 import { mockDoctors } from '../../lib/mockData';
+import { useSubscription } from '../../contexts/SubscriptionContext';
 import { toast } from 'sonner';
 
 export const BookAppointment: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { checkFeature, hasActiveSubscription } = useSubscription();
   const doctor = mockDoctors.find((d) => d.id === id);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState('');
   const [reason, setReason] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const hasFreeBooking = checkFeature('free-booking');
+  const bookingFee = 59; // Standard booking fee
 
   const timeSlots = [
     '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
@@ -72,7 +77,7 @@ export const BookAppointment: React.FC = () => {
               mode="single"
               selected={date}
               onSelect={setDate}
-              disabled={(date) => date < new Date()}
+              disabled={(date: Date) => date < new Date()}
               className="rounded-md border-0"
             />
           </Card>
@@ -114,6 +119,28 @@ export const BookAppointment: React.FC = () => {
           />
         </div>
 
+        {/* Premium Benefit Banner */}
+        {hasFreeBooking && (
+          <Card className="p-4 mb-4 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-800">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg">
+                <Crown className="w-5 h-5 text-white" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="text-gray-900 dark:text-white">
+                    Premium Benefit Active
+                  </p>
+                  <Sparkles className="w-4 h-4 text-yellow-500" />
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Booking fee waived for subscribers
+                </p>
+              </div>
+            </div>
+          </Card>
+        )}
+
         {/* Summary */}
         <Card className="p-4 mb-6 bg-pink-50 dark:bg-pink-900/20">
           <h3 className="text-gray-900 dark:text-white mb-3">Booking Summary</h3>
@@ -136,13 +163,44 @@ export const BookAppointment: React.FC = () => {
                 ${doctor.consultationFee}
               </span>
             </div>
+            <div className="flex justify-between">
+              <span>Booking Fee</span>
+              {hasFreeBooking ? (
+                <span className="text-green-600 dark:text-green-400 line-through">
+                  ₱{bookingFee} FREE
+                </span>
+              ) : (
+                <span className="text-gray-900 dark:text-white">₱{bookingFee}</span>
+              )}
+            </div>
             <div className="border-t border-pink-200 dark:border-pink-800 pt-2 mt-2" />
             <div className="flex justify-between">
               <span>Total</span>
-              <span className="text-pink-500">${doctor.consultationFee}</span>
+              <span className="text-pink-500">
+                ${doctor.consultationFee}{!hasFreeBooking && ` + ₱${bookingFee}`}
+              </span>
             </div>
           </div>
         </Card>
+
+        {/* Upgrade Prompt for Non-Subscribers */}
+        {!hasActiveSubscription && (
+          <Card className="p-4 mb-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-800 cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() => navigate('/patient/subscription-plans')}
+          >
+            <div className="flex items-start gap-3">
+              <Crown className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-gray-900 dark:text-white text-sm mb-1">
+                  <strong>Save on every booking!</strong>
+                </p>
+                <p className="text-gray-600 dark:text-gray-400 text-xs">
+                  Subscribe to get free bookings and unlimited chat support
+                </p>
+              </div>
+            </div>
+          </Card>
+        )}
 
         {/* Book Button */}
         <Button

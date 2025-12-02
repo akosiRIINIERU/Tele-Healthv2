@@ -118,7 +118,7 @@ export const EditProfile: React.FC = () => {
 
             <div>
               <Label htmlFor="gender">Gender</Label>
-              <Select value={formData.gender} onValueChange={(v) => handleChange('gender', v)}>
+              <Select value={formData.gender} onValueChange={(v: string) => handleChange('gender', v)}>
                 <SelectTrigger className="mt-2">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>

@@ -27,8 +27,8 @@ export function AuthScreen({ onLogin }: AuthScreenProps) {
     // Mock user creation/login
     const user: User = {
       id: Math.random().toString(36).substr(2, 9),
-      name: formData.name || 'John Doe',
-      email: formData.email || 'john@example.com',
+      name: formData.name || 'Micah Myers',
+      email: formData.email || 'Mica@telehealth.com',
       type: formData.userType,
       specialty: formData.userType === 'doctor' ? formData.specialty : undefined,
       status: formData.userType === 'doctor' ? 'available' : undefined,
